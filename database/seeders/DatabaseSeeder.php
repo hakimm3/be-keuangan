@@ -19,17 +19,17 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::create([
-            'name' => 'Trisa Abdul Hakim',
-            'email' => 'hakimpbg@gmail.com',
-            'password' => bcrypt('hakimganteng123')
-        ]);
+        // User::create([
+        //     'name' => 'Trisa Abdul Hakim',
+        //     'email' => 'hakimpbg@gmail.com',
+        //     'password' => bcrypt('hakimganteng123')
+        // ]);
 
-        // User::factory(10)->create();
-        // SpendingCategories::factory(10)->create();
-        // Spending::factory(1000)->create();
+        User::factory(10)->create();
+        SpendingCategories::factory(10)->create();
+        Spending::factory(1000)->create();
 
-        // IncomeCategory::factory(10)->create();
-        // Income::factory(1000)->create();
+        IncomeCategory::factory(10)->create();
+        Income::factory(1000)->create();
     }
 }

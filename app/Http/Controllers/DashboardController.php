@@ -52,7 +52,8 @@ class DashboardController extends Controller
                 'total' => $spending->total
             ];
         }
-
+        $orderedResult = collect($result)->sortBy('month');
+        return $orderedResult->toArray();
         return $result;
     }
 
@@ -75,6 +76,7 @@ class DashboardController extends Controller
             ];
         }
 
-        return $result;
+        $orderedResult = collect($result)->sortBy('month');
+        return $orderedResult->toArray();
     }
 }
