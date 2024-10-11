@@ -30,9 +30,12 @@ Route::middleware('auth:api')->group(function(){
     Route::post('incomes/bulk-delete', \App\Http\Controllers\Income\BulkDeleteIncomeController::class);
     Route::post('incomes/import', \App\Http\Controllers\Income\ImportIncomeController::class);
 
+    Route::resource('user-wallets', \App\Http\Controllers\UserWallet\UserWalletController::class);
+
     Route::prefix('master-data')->as('master-data.')->group(function(){
         Route::resource('income-categories', \App\Http\Controllers\MasterData\IncomeCategoriesController::class);
         Route::resource('spending-categories', \App\Http\Controllers\MasterData\SpendingCategoriesController::class);
+        Route::resource('wallets', \App\Http\Controllers\MasterData\WalletController::class);
     });
 
     Route::prefix('authorization')->as('authorization.')->group(function(){
