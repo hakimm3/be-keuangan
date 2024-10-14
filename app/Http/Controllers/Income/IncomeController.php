@@ -23,7 +23,7 @@ class IncomeController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
-        $data['date'] = Carbon::parse($request->date)->format('Y-m-d');
+        $data['date'] = Carbon::parse($request->date)->timezone('Asia/Jakarta')->format('Y-m-d');
         $income = Income::create($data);
 
         return response()->json([
@@ -36,7 +36,7 @@ class IncomeController extends Controller
     {
         $income = Income::find($id);
         $data = $request->validated();
-        $data['date'] = Carbon::parse($request->date)->format('Y-m-d');
+        $data['date'] = Carbon::parse($request->date)->timezone('Asia/Jakarta')->format('Y-m-d');
         $income->update($data);
 
         return response()->json([

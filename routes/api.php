@@ -22,20 +22,27 @@ Route::middleware('auth:api')->group(function(){
 
     Route::get('dashboard', \App\Http\Controllers\DashboardController::class);
 
-    Route::resource('spendings', \App\Http\Controllers\Spending\SpendingController::class);
+    Route::resource('spendings', \App\Http\Controllers\Spending\SpendingController::class)->only('index', 'store', 'update', 'destroy');
     Route::post('spendings/bulk-delete', \App\Http\Controllers\Spending\BulkDeleteSpendingController::class);
     Route::post('spendings/import', \App\Http\Controllers\Spending\ImportSpendingController::class);
 
-    Route::resource('incomes', \App\Http\Controllers\Income\IncomeController::class);
+    Route::resource('incomes', \App\Http\Controllers\Income\IncomeController::class)->only('index', 'store', 'update', 'destroy');
     Route::post('incomes/bulk-delete', \App\Http\Controllers\Income\BulkDeleteIncomeController::class);
     Route::post('incomes/import', \App\Http\Controllers\Income\ImportIncomeController::class);
 
-    Route::resource('user-wallets', \App\Http\Controllers\UserWallet\UserWalletController::class);
+    Route::resource('my-wallets', \App\Http\Controllers\UserWallet\UserWalletController::class)->only('index', 'store', 'update', 'destroy');
+    Route::post('my-wallets/bulk-delete', \App\Http\Controllers\UserWallet\BulkDeleteUserWalletController::class);
+    Route::get('my-wallets/transactions', \App\Http\Controllers\UserWallet\UserWalletTransactionController::class);
 
     Route::prefix('master-data')->as('master-data.')->group(function(){
-        Route::resource('income-categories', \App\Http\Controllers\MasterData\IncomeCategoriesController::class);
+        Route::resource('income-categories', \App\Http\Controllers\MasterData\IncomeCategoriesController::class)->only('index', 'store', 'update', 'destroy');
+        Route::post('income-categories/bulk-delete', \App\Http\Controllers\MasterData\Invoke\BulkDeleteIncomeCategoriesController::class);
+        
         Route::resource('spending-categories', \App\Http\Controllers\MasterData\SpendingCategoriesController::class);
-        Route::resource('wallets', \App\Http\Controllers\MasterData\WalletController::class);
+        Route::post('spending-categories/bulk-delete', \App\Http\Controllers\MasterData\Invoke\BulkDeleteSpendingCategoriesController::class);
+        
+        Route::resource('wallets', \App\Http\Controllers\MasterData\WalletController::class)->only('index', 'store', 'update', 'destroy');
+        Route::post('wallets/bulk-delete', \App\Http\Controllers\MasterData\Invoke\BulkDeleteWalletController::class);
     });
 
     Route::prefix('authorization')->as('authorization.')->group(function(){

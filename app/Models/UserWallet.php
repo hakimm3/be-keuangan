@@ -14,6 +14,7 @@ class UserWallet extends Model
         'user_id',
         'wallet_id',
         'balance',
+        'monthly_fee',
     ];
 
     public function user()

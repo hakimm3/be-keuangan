@@ -9,6 +9,8 @@ use App\Models\IncomeCategory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\SpendingCategories;
+use App\Models\UserWallet;
+use App\Models\UserWalletTransaction;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,13 +21,20 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::create([
-        //     'name' => 'Trisa Abdul Hakim',
-        //     'email' => 'hakimpbg@gmail.com',
-        //     'password' => bcrypt('hakimganteng123')
-        // ]);
+        User::create([
+            'name' => 'Trisa Abdul Hakim',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->call([
+            WalletSeeder::class,
+        ]);
 
         User::factory(10)->create();
+        UserWallet::factory(100)->create();
+        UserWalletTransaction::factory(1000)->create();
+
         SpendingCategories::factory(10)->create();
         Spending::factory(1000)->create();
 

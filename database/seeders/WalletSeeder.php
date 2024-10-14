@@ -37,6 +37,10 @@ class WalletSeeder extends Seeder
                 'name' => 'OVO',
                 'topup_fee' => 1000
             ],
+            [
+                'name' => "Cash",
+                'topup_fee' => 0
+            ]
         ];
 
         foreach ($wallets as $wallet) {

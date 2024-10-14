@@ -14,7 +14,7 @@ class UserWalletController extends Controller
      */
     public function index()
     {
-        $userWallets = UserWallet::where('user_id', auth()->id())->latest()->get();
+        $userWallets = UserWallet::with('user', 'wallet')->where('user_id', auth()->id())->latest()->get();
 
         return response()->json([
             'status' => 'success',
@@ -28,10 +28,12 @@ class UserWalletController extends Controller
      */
     public function store(UserWalletRequest $request)
     {
+        // dd($request->all());
         $userWallet = UserWallet::create([
             'user_id' => auth()->id(),
             'wallet_id' => $request->wallet_id,
             'balance' => $request->balance,
+            'monthly_fee' => $request->monthly_fee
         ]);
 
         return response()->json([
@@ -44,7 +46,7 @@ class UserWalletController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserWallet $request, string $id)
+    public function update(UserWalletRequest $request, string $id)
     {
         $userWallet = UserWallet::findOrFail($id);
         $userWallet->update($request->validated());

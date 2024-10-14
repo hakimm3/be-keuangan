@@ -24,6 +24,7 @@ class UserWalletRequest extends FormRequest
         return [
             'wallet_id' => 'required|exists:wallets,id',
             'balance' => 'required|numeric',
+            'monthly_fee' => 'required|numeric'
         ];
     }
 }

@@ -23,8 +23,7 @@ class WalletRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'topup_fee' => 'required|numeric',
-            'transfer_fee' => 'required|numeric',
+            'topup_fee' => 'nullable|numeric',
         ];
     }
 }

@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Wallet extends Model
+class UserWalletTransaction extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'topup_fee',
+        'user_wallet_id',
+        'amount',
+        'type',
+        'description',
     ];
 
-    public function users()
+    public function userWallet()
     {
-        return $this->hasMany(UserWallet::class);
+        return $this->belongsTo(UserWallet::class, 'user_wallet_id');
     }
 }

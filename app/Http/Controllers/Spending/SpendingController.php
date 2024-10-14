@@ -26,7 +26,7 @@ class SpendingController extends Controller
             'category_id' => $request->category_id,
             'amount' => $request->amount,
             'description' => $request->description,
-            'date' => Carbon::parse($request->date)->format('Y-m-d')
+            'date' => Carbon::parse($request->date)->timezone('Asia/Jakarta')->format('Y-m-d')
         ]);
         return response()->json([
             'success' => true,
@@ -41,7 +41,7 @@ class SpendingController extends Controller
             'category_id' => $request->category_id,
             'amount' => $request->amount,
             'description' => $request->description,
-            'date' => Carbon::parse($request->date)->format('Y-m-d')
+            'date' => Carbon::parse($request->date)->timezone('Asia/Jakarta')->format('Y-m-d')
         ]);
         return response()->json([
             'success' => true,
