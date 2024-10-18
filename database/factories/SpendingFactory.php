@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\SpendingCategories;
 use App\Models\User;
+use App\Models\UserWallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,8 @@ class SpendingFactory extends Factory
     {
         return [
             'user_id' => User::get()->random()->id,
-            'category_id' => SpendingCategories::get()->random()->id,
+            'category_id' => SpendingCategories::factory(),
+            'user_wallet_id' => UserWallet::get()->random()->id,
             'description' => fake()->text(10),
             'amount'    => fake()->numberBetween(10000, 20000),
             'date' => fake()->dateTimeThisYear(),

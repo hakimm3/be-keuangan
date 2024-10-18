@@ -23,6 +23,7 @@ class IncomeRequest extends FormRequest
     {
         return [
             'category_id' => 'required|exists:income_categories,id',
+            'user_wallet_id' => 'required|exists:user_wallets,id',
             'amount' => 'required|numeric',
             'date' => 'required|date',
             'description' => 'nullable|string'

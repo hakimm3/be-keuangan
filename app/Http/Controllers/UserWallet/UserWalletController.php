@@ -31,9 +31,11 @@ class UserWalletController extends Controller
         // dd($request->all());
         $userWallet = UserWallet::create([
             'user_id' => auth()->id(),
+            'description' => $request->description,
             'wallet_id' => $request->wallet_id,
             'balance' => $request->balance,
-            'monthly_fee' => $request->monthly_fee
+            'monthly_fee' => $request->monthly_fee,
+            'status' => $request->status ? 1 : 0
         ]);
 
         return response()->json([
@@ -48,8 +50,15 @@ class UserWalletController extends Controller
      */
     public function update(UserWalletRequest $request, string $id)
     {
+        // dd($request->all());
         $userWallet = UserWallet::findOrFail($id);
-        $userWallet->update($request->validated());
+        $userWallet->update([
+            'description' => $request->description,
+            'wallet_id' => $request->wallet_id,
+            'balance' => $request->balance,
+            'monthly_fee' => $request->monthly_fee,
+            'status' => $request->status ? 1 : 0
+        ]);
 
         return response()->json([
             'status' => 'success',

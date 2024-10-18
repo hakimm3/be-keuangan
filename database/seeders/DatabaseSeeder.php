@@ -27,18 +27,19 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $this->call([
-            WalletSeeder::class,
-        ]);
+        // $this->call([
+        //     WalletSeeder::class,
+        // ]);
 
-        User::factory(10)->create();
-        UserWallet::factory(100)->create();
-        UserWalletTransaction::factory(1000)->create();
+        // User::factory(2)->create();
+        // UserWallet::factory(100)->create();
 
-        SpendingCategories::factory(10)->create();
-        Spending::factory(1000)->create();
+        // SpendingCategories::factory(10)->create();
+        // Spending::factory(100)->create();
 
-        IncomeCategory::factory(10)->create();
-        Income::factory(1000)->create();
+        // IncomeCategory::factory(10)->create();
+        // Income::factory(100)->create();
+
+        // UserWalletTransaction::factory(100)->create();
     }
 }

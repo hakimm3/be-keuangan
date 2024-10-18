@@ -23,6 +23,8 @@ class UserWalletFactory extends Factory
             'wallet_id' => Wallet::get()->random()->id,
             'balance' => fake()->numberBetween(10000, 20000),
             'monthly_fee' => fake()->numberBetween(1000, 5000),
+            'description' => fake()->text(10),
+            'status' => true,
         ];
     }
 }

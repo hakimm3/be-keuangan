@@ -23,6 +23,7 @@ class SpendingStoreRequest extends FormRequest
     {
         return [
             'category_id' => 'required',
+            'user_wallet_id' => 'required',
             'amount' => 'required',
             'description' => 'required',
             'date' => 'required',

@@ -13,8 +13,10 @@ class UserWallet extends Model
     protected $fillable = [
         'user_id',
         'wallet_id',
+        'description',
         'balance',
         'monthly_fee',
+        'status'
     ];
 
     public function user()

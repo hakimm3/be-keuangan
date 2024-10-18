@@ -23,8 +23,10 @@ class UserWalletRequest extends FormRequest
     {
         return [
             'wallet_id' => 'required|exists:wallets,id',
+            'description' => 'nullable|string',
             'balance' => 'required|numeric',
-            'monthly_fee' => 'required|numeric'
+            'monthly_fee' => 'required|numeric',
+            'status' => 'nullable'
         ];
     }
 }

@@ -18,6 +18,8 @@ class UserWalletTransactionFactory extends Factory
     {
         return [
             'user_wallet_id' => \App\Models\UserWallet::factory(),
+            'spending_id' => \App\Models\Spending::factory(),
+            'income_id' => \App\Models\Income::factory(),
             'amount' => $this->faker->numberBetween(1000, 5000),
             'type' => $this->faker->randomElement(['in', 'out']),
             'description' => $this->faker->sentence,

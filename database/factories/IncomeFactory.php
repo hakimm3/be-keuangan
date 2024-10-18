@@ -19,6 +19,7 @@ class IncomeFactory extends Factory
         return [
             'user_id' => \App\Models\User::get()->random()->id,
             'category_id' => \App\Models\IncomeCategory::get()->random()->id,
+            'user_wallet_id' => \App\Models\UserWallet::get()->random()->id,
             'amount' => fake()->numberBetween(10000, 20000),
             'date' => fake()->date(),
             'description' => fake()->text(10)

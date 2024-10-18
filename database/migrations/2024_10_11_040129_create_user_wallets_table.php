@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('wallet_id')->constrained()->cascadeOnDelete();
             $table->bigInteger('balance')->default(0);
             $table->bigInteger('monthly_fee')->default(0);
+            $table->string('description')->nullable();
+            $table->boolean('status')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });

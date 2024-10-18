@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Income extends Model
 {
     use HasFactory, SoftDeletes;
+    use \Znck\Eloquent\Traits\BelongsToThrough;
 
     protected $fillable = [
         'user_id',
         'category_id',
+        'user_wallet_id',
         'amount',
         'date',
         'description'
@@ -24,5 +26,14 @@ class Income extends Model
 
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function userWallet(){
+        return $this->belongsTo(UserWallet::class, 'user_wallet_id');
+    }
+
+    public function wallet() : \Znck\Eloquent\Relations\BelongsToThrough
+    {
+        return $this->belongsToThrough(Wallet::class, UserWallet::class);
     }
 }
