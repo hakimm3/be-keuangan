@@ -110,7 +110,13 @@ class DashboardController extends Controller
             $result[$monthName]['expense'] = $spending->total;
         }
 
-        return $result;
+        // return $result;
+        $orderedResult = collect($result)->sortBy(function ($value, $key) {
+            return Carbon::parse($key)->month;
+        })->toArray();
+        // dd($orderedResult);
+
+        return $orderedResult;
     }
 
     private function expenseByWallet($baseQuerySpending){
