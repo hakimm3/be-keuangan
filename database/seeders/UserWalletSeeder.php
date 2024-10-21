@@ -20,7 +20,7 @@ class UserWalletSeeder extends Seeder
                 'user_id' => 1,
                 'wallet_id' => $wallet->id,
                 'description' => 'Wallet ' . $wallet->name,
-                'balance' => 200000,
+                'balance' => 0,
                 'monthly_fee' => 0,
                 'status' => 1,
             ]);

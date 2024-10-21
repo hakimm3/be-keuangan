@@ -26,6 +26,7 @@ class IncomeImport implements ToModel, WithHeadingRow, WithValidation
             'description' => $row['Description'],
             'amount' => $row['Amount'],
             'date' => Carbon::parse($row['Date'])->format('Y-m-d'),
+            'user_wallet_id' => auth()->user()->wallets->first()->id,
             'category_id' => IncomeCategory::firstOrCreate(['name' => $row['Category']])->id,
             'user_id' => auth()->id()
         ]);
