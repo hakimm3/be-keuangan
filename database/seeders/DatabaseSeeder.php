@@ -19,17 +19,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::create([
-            'name' => 'Trisa Abdul Hakim',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
+        $this->call([
+            UserSeeder::class,
+            WalletSeeder::class,
+            UserWalletSeeder::class,
+
+            SpendingCategorySeeder::class,
+            SpendingSeeder::class,
+
+            IncomeCategorySeeder::class,
+            IncomeSeeder::class,
         ]);
-
-        // $this->call([
-        //     WalletSeeder::class,
-        // ]);
 
         // User::factory(2)->create();
         // UserWallet::factory(100)->create();
