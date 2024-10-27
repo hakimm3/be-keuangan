@@ -21,15 +21,16 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
+            PermissionSeeder::class,
             UserSeeder::class,
             WalletSeeder::class,
             UserWalletSeeder::class,
 
-            // SpendingCategorySeeder::class,
-            // SpendingSeeder::class,
+            SpendingCategorySeeder::class,
+            SpendingSeeder::class,
 
-            // IncomeCategorySeeder::class,
-            // IncomeSeeder::class,
+            IncomeCategorySeeder::class,
+            IncomeSeeder::class,
         ]);
     }
 }

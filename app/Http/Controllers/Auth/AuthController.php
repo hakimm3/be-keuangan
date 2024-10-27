@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
@@ -24,7 +25,8 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'user'    => auth()->guard('api')->user(),    
-            'token'   => $token   
+            'token'   => $token   ,
+            'permissions' => auth()->guard('api')->user()->getAllPermissions()->pluck('name')
         ], 200);
     }
 

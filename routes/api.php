@@ -10,9 +10,9 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('auth')->as('auth.')->group(function(){
     // Route::post('login', \App\Http\Controllers\auth\LoginController::class)->name('login');
-    Route::post('login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
-    Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-    Route::get('me', [\App\Http\Controllers\AuthController::class, 'me'])->name('me');
+    Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login'])->name('login');
+    Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
+    Route::get('me', [\App\Http\Controllers\Auth\AuthController::class, 'me'])->name('me');
 });
 
 Route::middleware('auth:api')->group(function(){
@@ -46,6 +46,10 @@ Route::middleware('auth:api')->group(function(){
     });
 
     Route::prefix('authorization')->as('authorization.')->group(function(){
-        Route::resource('users', \App\Http\Controllers\Authorization\UserController::class);
+        Route::resource('users', \App\Http\Controllers\Authorization\UserController::class)->only('index', 'store', 'update', 'destroy');
+        Route::post('users/bulk-delete', \App\Http\Controllers\Authorization\Invoke\BulkDeleteUserController::class);
+
+        Route::resource('roles', \App\Http\Controllers\Authorization\RoleController::class)->only('index', 'store', 'update', 'destroy');
+        Route::post('roles/bulk-delete', \App\Http\Controllers\Authorization\Invoke\BulkDeleteRoleController::class);
     });
 });
