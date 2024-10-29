@@ -14,9 +14,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // admin    
-        $superAdmin = \App\Models\User::create([
+        $superAdmin = \App\Models\User::updateOrCreate([
             'name' => 'Trisa Abdul Hakim',
             'email' => 'admin@example.com',
+        ],[
             'password' => bcrypt('password'),
         ]);
 
