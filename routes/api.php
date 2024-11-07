@@ -49,7 +49,7 @@ Route::middleware('auth:api')->group(function(){
         Route::resource('users', \App\Http\Controllers\Authorization\UserController::class)->only('index', 'store', 'update', 'destroy');
         Route::post('users/bulk-delete', \App\Http\Controllers\Authorization\Invoke\BulkDeleteUserController::class);
 
-        Route::resource('roles', \App\Http\Controllers\Authorization\RoleController::class)->only('index', 'store', 'update', 'destroy');
+        Route::resource('roles', \App\Http\Controllers\Authorization\RoleController::class)->only('index', 'store', 'update', 'show', 'destroy');
         Route::post('roles/bulk-delete', \App\Http\Controllers\Authorization\Invoke\BulkDeleteRoleController::class);
     });
 });
