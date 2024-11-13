@@ -26,6 +26,6 @@ class UserWallet extends Model
 
     public function wallet()
     {
-        return $this->belongsTo(Wallet::class);
+        return $this->belongsTo(Wallet::class)->withTrashed();
     }
 }

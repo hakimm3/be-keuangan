@@ -16,16 +16,16 @@ class Spending extends Model
 
     public function category()
     {
-        return $this->belongsTo(SpendingCategories::class, 'category_id');
+        return $this->belongsTo(SpendingCategories::class, 'category_id')->withTrashed();
     }
 
     public function userWallet()
     {
-        return $this->belongsTo(UserWallet::class, 'user_wallet_id');
+        return $this->belongsTo(UserWallet::class, 'user_wallet_id')->withTrashed();
     }
 
     public function wallet() :  \Znck\Eloquent\Relations\BelongsToThrough
     {
-        return $this->belongsToThrough(Wallet::class, UserWallet::class);
+        return $this->belongsToThrough(Wallet::class, UserWallet::class)->withTrashed('user_wallets.deleted_at');
     }
 }

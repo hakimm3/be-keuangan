@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\UserWallet;
+namespace App\Http\Controllers\UserWallet\Invoke;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserWallet;

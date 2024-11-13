@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Income;
 use App\Models\Spending;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -16,11 +17,11 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
         $baseQuerySpending = Spending::query()->with('category')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::user()->id)
             ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
         
         $baseQueryIncome = Income::query()->with('category')
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::user()->id)
             ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
 
         return response()->json([
@@ -33,7 +34,7 @@ class DashboardController extends Controller
 
                     'total_expense_this_month' => $baseQuerySpending->whereMonth('date', Carbon::now()->month)->sum('amount'),
                     'total_income_this_month' => $baseQueryIncome->whereMonth('date', Carbon::now()->month)->sum('amount'),
-                    'total_money_in_all_wallet' => auth()->user()->wallets->sum('balance'),
+                    'total_money_in_all_wallet' => Auth::user()->wallets->sum('balance'),
                 ]
             ]);
     }
