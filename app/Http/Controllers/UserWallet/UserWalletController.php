@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserWalletRequest;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserWalletController extends Controller
 {
@@ -14,7 +15,7 @@ class UserWalletController extends Controller
      */
     public function index()
     {
-        $userWallets = UserWallet::with('user', 'wallet')->where('user_id', auth()->id())->latest()->get();
+        $userWallets = UserWallet::with('user', 'wallet')->where('user_id', Auth::id())->latest()->get();
 
         return response()->json([
             'status' => 'success',
@@ -30,7 +31,7 @@ class UserWalletController extends Controller
     {
         // dd($request->all());
         $userWallet = UserWallet::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'description' => $request->description,
             'wallet_id' => $request->wallet_id,
             'balance' => $request->balance,

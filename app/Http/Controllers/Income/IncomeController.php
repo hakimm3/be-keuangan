@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IncomeRequest;
 use App\Models\UserWalletTransaction;
+use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
     public function index()
     {
-        $data = Income::with('category', 'userWallet.wallet', 'wallet')->where('user_id', auth()->id())->orderByDesc('date')->get();
+        $data = Income::with('category', 'userWallet.wallet', 'wallet')->where('user_id', Auth::user()->id,)->orderByDesc('date')->get();
         return response()->json([
             'status' => 'success',
             'data' => $data
@@ -26,7 +27,7 @@ class IncomeController extends Controller
     {
         DB::beginTransaction();
         $income = Income::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::user()->id,
             'category_id' => $request->category_id,
             'user_wallet_id' => $request->user_wallet_id,
             'amount' => $request->amount,

@@ -9,13 +9,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserWalletTransaction;
 use App\Http\Requests\SpendingStoreRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SpendingController extends Controller
 {
     public function index()
     {
-        $spendings = Spending::with('category', 'wallet', 'userWallet.wallet')->where('user_id', auth()->user()->id)->orderByDesc('date')->get();
+        $spendings = Spending::with('category', 'wallet', 'userWallet.wallet')->where('user_id', Auth::user()->id,)->orderByDesc('date')->get();
         return response()->json([
             'success' => true,
             'data' => $spendings
@@ -26,7 +27,7 @@ class SpendingController extends Controller
     {   
         DB::beginTransaction();
         $spending = Spending::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
             'category_id' => $request->category_id,
             'user_wallet_id' => $request->user_wallet_id,
             'amount' => $request->amount,
