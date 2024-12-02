@@ -81,4 +81,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(UserWallet::class);
     }
+
+    public function budgets(){
+        return $this->hasMany(Budget::class);
+    }
 }

@@ -35,6 +35,8 @@ Route::middleware('auth:api')->group(function(){
     Route::post('my-wallets/top-up', \App\Http\Controllers\UserWallet\Invoke\TopUpController::class);
     Route::get('my-wallets/transactions', \App\Http\Controllers\UserWallet\Invoke\UserWalletTransactionController::class);
 
+    Route::resource('budgets', \App\Http\Controllers\Budget\BudgetController::class)->only('index', 'store');
+
     Route::prefix('master-data')->as('master-data.')->group(function(){
         Route::resource('income-categories', \App\Http\Controllers\MasterData\IncomeCategoriesController::class)->only('index', 'store', 'update', 'destroy');
         Route::post('income-categories/bulk-delete', \App\Http\Controllers\MasterData\Invoke\BulkDeleteIncomeCategoriesController::class);

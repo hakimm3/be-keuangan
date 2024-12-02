@@ -13,6 +13,10 @@ class SpendingCategories extends Model
     protected $fillable = ['name', 'description'];
 
     public function spendings(){
-        return $this->hasMany(Spending::class);
+        return $this->hasMany(Spending::class, 'category_id');
+    }
+
+    public function budgets(){
+        return $this->hasMany(Budget::class, 'spending_category_id');
     }
 }
