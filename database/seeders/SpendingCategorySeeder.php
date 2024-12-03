@@ -12,7 +12,7 @@ class SpendingCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $data = ['Food', 'Transportation', 'Household', 'Health', 'Education', 'Entertainment', 'Clothing', 'Insurance', 'Credit Card', 'Other'];
+        $data = ['Food', 'Transportation', 'Household', 'Health', 'Education', 'Entertainment', 'Clothing', 'Insurance', 'Credit Card', 'Admin Fee', 'Other'];
         foreach ($data as $category) {
             \App\Models\SpendingCategories::create([
                 'name' => $category,
