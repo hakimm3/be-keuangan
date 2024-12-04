@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
 
             IncomeCategorySeeder::class,
             IncomeSeeder::class,
+
+            // BudgetSeeder::class,
         ]);
     }
 }

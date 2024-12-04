@@ -9,10 +9,11 @@ class Budget extends Model
 {
     use HasFactory;
 
-    public $fillable = ['user_id', 'spending_category_id', 'date', 'amount'];
+    public $fillable = ['budget_group_id', 'spending_category_id', 'amount'];
 
-    public function users(){
-        return $this->belongsTo(User::class);
+    
+    public function group(){
+        return $this->belongsTo(BudgetGroup::class);
     }
     
     public function spendingCategory(){

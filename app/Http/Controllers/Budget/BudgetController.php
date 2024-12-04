@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Budget;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BudgetRequest;
+use App\Models\Budget;
+use App\Models\BudgetGroup;
 use App\Models\SpendingCategories;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
@@ -14,34 +18,54 @@ class BudgetController extends Controller
      */
     public function index(Request $request)
     {
-        $data = SpendingCategories::with(['budgets' => function($q){
-            $q->whereMonth('date', Carbon::now()->format('m'));
-        }])
-        ->with(['spendings' => function($q){
-            $q->whereMonth('date', Carbon::now()->subMonth()->format('m'));
-        }])
-        ->get();
+        if($request->month && $request->year){
+            $name = $request->month. ' '. $request->year;
+            $date = Carbon::parse($name)->format('Y-m-d');
+
+            $budgetGroup = BudgetGroup::firstOrCreate([
+                'user_id' => Auth::user()->id,
+                'name' => $name,
+                'type' => 'monthly',
+                'date' => $date
+            ]);
+            $budgets = Budget::where('budget_group_id', $budgetGroup->id)->get();
+        }
+
+        $spendingCategories = SpendingCategories::all();
+
+        foreach($spendingCategories as $category){
+            $category->budget = $budgets->where('spending_category_id', $category->id)->first() ?? [];
+        }
+
         
         return response()->json([
             'success' => true,
-            'data'  => $data
+            'data'  => $spendingCategories
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BudgetRequest $request)
     {
-        //
+        $name = $request->month. ' '. $request->year;
+        $date = Carbon::parse($name)->format('Y-m-d');
+
+        $budgetGroup = BudgetGroup::firstOrCreate([
+            'type' => 'monthly',
+            'date' => $date
+        ]);
+
+        $data = Budget::updateOrCreate(
+            ['budget_group_id' => $budgetGroup->id, 'spending_category_id' => $request->spending_category_id],
+            ['amount' => $request->amount]
+        );
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
     }
 
     /**

@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('user_id');
-            $table->foreignUlid('spending_category_id');
-            $table->date('date');
+            $table->foreignId('budget_group_id');
+            $table->foreignUuid('spending_category_id');
             $table->bigInteger('amount');
             $table->timestamps();
         });
