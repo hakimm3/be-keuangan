@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BudgetGroup;
 use Carbon\Carbon;
 use App\Models\Income;
 use App\Models\Spending;
@@ -44,6 +45,8 @@ class DashboardController extends Controller
             ->selectRaw('sum(amount) as total, month(date) as month, category_id')
             ->groupBy('month', 'category_id')
             ->get();
+        
+        // dd($spendings->pluck('category_id')->unique());
 
         $result = [];
 
@@ -57,6 +60,17 @@ class DashboardController extends Controller
                 'total' => $spending->total
             ];
         }
+
+        // get budget
+        $budgetsQuery = BudgetGroup::withSum('budgets', 'amount')->where('user_id', Auth::user()->id)->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('type', 'monthly')->get();
+       foreach($budgetsQuery as $budget){
+            $month = Carbon::parse($budget->date)->format('F');
+            $result[$month][] = [
+                'category' => 'budget',
+                'total' => $budget->budgets_sum_amount
+            ];
+        }
+
         return $result;
     }
 

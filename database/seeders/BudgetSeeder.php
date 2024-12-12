@@ -27,7 +27,7 @@ class BudgetSeeder extends Seeder
             foreach($spendingCategories as $spendingCategory){
                 $budgetGroup->budgets()->create([
                     'spending_category_id' => $spendingCategory->id,
-                    'amount' => rand(100000, 1000000)
+                    'amount' => rand(10000, 100000)
                 ]);
             }  
         }
