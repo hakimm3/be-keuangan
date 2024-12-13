@@ -54,5 +54,8 @@ Route::middleware('auth:api')->group(function(){
 
         Route::resource('roles', \App\Http\Controllers\Authorization\RoleController::class)->only('index', 'store', 'update', 'show', 'destroy');
         Route::post('roles/bulk-delete', \App\Http\Controllers\Authorization\Invoke\BulkDeleteRoleController::class);
+        Route::post('roles/sync-permissions', \App\Http\Controllers\Authorization\Invoke\SyncRolePermissionController::class);
+
+        Route::resource('permissions', \App\Http\Controllers\Authorization\PermissionController::class)->only('index', 'store', 'update', 'destroy');
     });
 });
