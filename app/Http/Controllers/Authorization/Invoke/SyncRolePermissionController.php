@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Authorization\Invoke;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SyncRolePermissionController extends Controller
 {
@@ -21,7 +22,8 @@ class SyncRolePermissionController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Role permission synced successfully',
-            'data' => $role
+            'data' => $role,
+            'permissions' => Auth::guard('api')->user()->getAllPermissions()->pluck('name')
         ]);
 
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         //if auth failed
-        if(!$token = auth()->guard('api')->attempt($credentials)) {
+        if(!$token = Auth::guard('api')->attempt($credentials)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Email atau Password Anda salah'
@@ -24,15 +25,15 @@ class AuthController extends Controller
         //if auth success
         return response()->json([
             'success' => true,
-            'user'    => auth()->guard('api')->user(),    
+            'user'    => Auth::guard('api')->user(),    
             'token'   => $token,
-            'permissions' => auth()->guard('api')->user()->getAllPermissions()->pluck('name')
+            'permissions' => Auth::guard('api')->user()->getAllPermissions()->pluck('name')
         ], 200);
     }
 
     public function logout()
     {
-        auth()->guard('api')->logout();
+        Auth::guard('api')->logout();
         return response()->json([
             'success' => true,
             'message' => 'Berhasil logout'
@@ -43,7 +44,8 @@ class AuthController extends Controller
     {
         return response()->json([
             'success' => true,
-            'user'    => auth()->guard('api')->user()
+            'user'    => Auth::guard('api')->user(),
+            'data' => Auth::guard('api')->user()->getAllPermissions()->pluck('name')
         ], 200);
     }
 }

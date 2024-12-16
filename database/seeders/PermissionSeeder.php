@@ -38,11 +38,11 @@ class PermissionSeeder extends Seeder
                 'data' => [
                     'incomes',
                     'expenses',
-                    'my-wallets'
+                    'my wallets'
                 ],
-                'master_data' => [
-                    'income_categories',
-                    'expense_categories',
+                'master data' => [
+                    'income categories',
+                    'expense categories',
                     'wallets'
                 ],
                 'auth' => [
