@@ -19,9 +19,27 @@ class BudgetSeeder extends Seeder
         foreach(range(1, 12) as $i){
            $budgetGroup = BudgetGroup::create([
                 'user_id' => 1,
-                'name' => Carbon::createFromDate(null, $i, 1)->format('F Y'),
+                'name' => Carbon::createFromDate(2024, $i, 1)->format('F Y'),
                 'type' => 'monthly',
-                'date' => Carbon::createFromDate(null, $i, 1)->format('Y-m-d')
+                'date' => Carbon::createFromDate(2024, $i, 1)->format('Y-m-d')
+           ]);
+
+            foreach($spendingCategories as $spendingCategory){
+                $budgetGroup->budgets()->create([
+                    'spending_category_id' => $spendingCategory->id,
+                    'amount' => rand(10000, 100000)
+                ]);
+            }  
+        }
+
+
+        $spendingCategories = SpendingCategories::all();
+        foreach(range(1, 12) as $i){
+           $budgetGroup = BudgetGroup::create([
+                'user_id' => 1,
+                'name' => Carbon::createFromDate(2025, $i, 1)->format('F Y'),
+                'type' => 'monthly',
+                'date' => Carbon::createFromDate(2025, $i, 1)->format('Y-m-d')
            ]);
 
             foreach($spendingCategories as $spendingCategory){

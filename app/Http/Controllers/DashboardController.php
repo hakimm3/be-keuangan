@@ -19,16 +19,28 @@ class DashboardController extends Controller
     {
         $baseQuerySpending = Spending::query()->with('category')
             ->where('user_id', Auth::user()->id)
-            ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+            // ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->when($request->year, function($query) use ($request){
+                $query->whereYear('date', $request->year);
+            })
+            ->when(!$request->year, function($query){
+                $query->whereYear('date', Carbon::now()->year);
+            });
         
         $baseQueryIncome = Income::query()->with('category')
             ->where('user_id', Auth::user()->id)
-            ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+            // ->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()]);
+            ->when($request->year, function($query) use ($request){
+                $query->whereYear('date', $request->year);
+            })
+            ->when(!$request->year, function($query){
+                $query->whereYear('date', Carbon::now()->year);
+            });
 
         return response()->json([
             'success' => true,
             'data' => [
-                    'expense_stream_by_month' => $this->ExpenseStreamByMonth($baseQuerySpending->clone()),
+                    'expense_stream_by_month' => $this->ExpenseStreamByMonth($baseQuerySpending->clone(), $request),
                     'income_stream_by_month' => $this->IncomeStreamByMonth($baseQueryIncome->clone()),
                     'income_vs_expense_by_month' => $this->IncomeVsExpenseByMonth($baseQueryIncome->clone(), $baseQuerySpending->clone()),
                     'expense_by_wallet' => $this->expenseByWallet($baseQuerySpending->clone()),
@@ -40,13 +52,11 @@ class DashboardController extends Controller
             ]);
     }
 
-    private function ExpenseStreamByMonth($baseQuerySpending){
+    private function ExpenseStreamByMonth($baseQuerySpending, $request){
         $spendings = $baseQuerySpending
             ->selectRaw('sum(amount) as total, month(date) as month, category_id')
             ->groupBy('month', 'category_id')
             ->get();
-        
-        // dd($spendings->pluck('category_id')->unique());
 
         $result = [];
 
@@ -62,7 +72,14 @@ class DashboardController extends Controller
         }
 
         // get budget
-        $budgetsQuery = BudgetGroup::withSum('budgets', 'amount')->where('user_id', Auth::user()->id)->whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('type', 'monthly')->get();
+       $budgetsQuery = BudgetGroup::withSum('budgets', 'amount')->where('user_id', Auth::user()->id)
+        ->when($request->year, function($query) use ($request){
+            $query->whereYear('date', $request->year);
+        })
+        ->when(!$request->year, function($query){
+            $query->whereYear('date', Carbon::now()->year);
+        })
+       ->where('type', 'monthly')->get();
        foreach($budgetsQuery as $budget){
             $month = Carbon::parse($budget->date)->format('F');
             $result[$month][] = [
@@ -125,11 +142,9 @@ class DashboardController extends Controller
             $result[$monthName]['expense'] = $spending->total;
         }
 
-        // return $result;
         $orderedResult = collect($result)->sortBy(function ($value, $key) {
             return Carbon::parse($key)->month;
         })->toArray();
-        // dd($orderedResult);
 
         return $orderedResult;
     }

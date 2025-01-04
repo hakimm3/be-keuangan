@@ -12,14 +12,14 @@ class IncomeSeeder extends Seeder
      */
     public function run(): void
     {
-        for($i=1; $i<=100; $i++){
+        for($i=1; $i<=300; $i++){
             $income = \App\Models\Income::create([
                 'user_id' => 1,
                 'user_wallet_id' => \App\Models\UserWallet::where('user_id', 1)->get()->random()->id,
                 'category_id' => rand(1, 5),
                 'description' => fake()->sentence,
                 'amount' => rand(10000, 100000),
-                'date' => fake()->dateTimeBetween('-7 month', 'now'),
+                'date' => fake()->dateTimeBetween('-1 year', '+1 year'),
             ]);
 
             \App\Models\UserWalletTransaction::create([

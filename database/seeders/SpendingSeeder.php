@@ -15,14 +15,14 @@ class SpendingSeeder extends Seeder
      */
     public function run(): void
     {
-        for($i=0; $i<100; $i++) {
+        for($i=0; $i<300; $i++) {
             $spending = \App\Models\Spending::create([
                 'user_id' => 1,
                 'user_wallet_id' => UserWallet::where('user_id', 1)->get()->random()->id,
                 'category_id' => SpendingCategories::all()->random()->id,
                 'description' => fake()->sentence,
                 'amount' => rand(10000, 100000),
-                'date' => fake()->dateTimeBetween('-7 month', 'now'),
+                'date' => fake()->dateTimeBetween('-1 year', '+1 year'),
             ]);
 
             UserWalletTransaction::create([
