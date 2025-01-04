@@ -37,6 +37,9 @@ class DashboardController extends Controller
                 $query->whereYear('date', Carbon::now()->year);
             });
 
+        $staticQueryIncome = Income::where('user_id', Auth::user()->id);
+        $staticQuerySpending = Spending::where('user_id', Auth::user()->id);
+
         return response()->json([
             'success' => true,
             'data' => [
@@ -45,8 +48,12 @@ class DashboardController extends Controller
                     'income_vs_expense_by_month' => $this->IncomeVsExpenseByMonth($baseQueryIncome->clone(), $baseQuerySpending->clone()),
                     'expense_by_wallet' => $this->expenseByWallet($baseQuerySpending->clone()),
 
-                    'total_expense_this_month' => $baseQuerySpending->whereMonth('date', Carbon::now()->month)->sum('amount'),
-                    'total_income_this_month' => $baseQueryIncome->whereMonth('date', Carbon::now()->month)->sum('amount'),
+                    'total_expense_this_month' => $staticQuerySpending->clone()->whereYear('date', Carbon::now()->year)->whereMonth('date', Carbon::now()->month)->sum('amount'),
+                    'total_expense_last_month' => $staticQuerySpending->clone()->whereYear('date', Carbon::now()->subMonth()->year)->whereMonth('date', Carbon::now()->subMonth()->month)->sum('amount'),
+
+                    'total_income_this_month' => $staticQueryIncome->clone()->whereYear('date', Carbon::now()->year)->whereMonth('date', Carbon::now()->month)->sum('amount'),
+                    'total_income_last_month' => $staticQueryIncome->clone()->whereYear('date', Carbon::now()->subMonth()->year)->whereMonth('date', Carbon::now()->subMonth()->month)->sum('amount'),
+
                     'total_money_in_all_wallet' => Auth::user()->wallets->sum('balance'),
                 ]
             ]);
