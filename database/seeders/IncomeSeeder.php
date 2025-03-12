@@ -19,7 +19,7 @@ class IncomeSeeder extends Seeder
                 'category_id' => rand(1, 5),
                 'description' => fake()->sentence,
                 'amount' => rand(10000, 100000),
-                'date' => fake()->dateTimeBetween('-1 year', '+1 year'),
+                'date' => date('Y-m-d H:i:s', rand(strtotime('-1 year'), strtotime('+1 year')))
             ]);
 
             \App\Models\UserWalletTransaction::create([
