@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,29 @@ class AuthController extends Controller
             'token'   => $token,
             'permissions' => Auth::guard('api')->user()->getAllPermissions()->pluck('name')
         ], 200);
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        // Assign default role to user
+        $user->assignRole('user');
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil mendaftar',
+        ], 201);
     }
 
     public function logout()

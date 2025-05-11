@@ -11,6 +11,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('auth')->as('auth.')->group(function(){
     // Route::post('login', \App\Http\Controllers\auth\LoginController::class)->name('login');
     Route::post('login', [\App\Http\Controllers\Auth\AuthController::class, 'login'])->name('login');
+    Route::post('register', [\App\Http\Controllers\Auth\AuthController::class, 'register'])->name('register');
     Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout'])->name('logout');
     Route::get('me', [\App\Http\Controllers\Auth\AuthController::class, 'me'])->name('me');
 });
